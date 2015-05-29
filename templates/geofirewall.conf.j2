@@ -1,0 +1,58 @@
+# geofirewall.conf template
+
+# if set to 0 we will DROP instead of logging
+test_mode={{ geofirewall_test_mode | default(1) }}
+
+# define dns servers
+# if not defined, system resolvers will be fetched
+# DNS_allowed_servers="8.8.8.8 8.8.4.4"
+DNS_allowed_servers="{{ geofirewall_DNS_allowed_servers | default('') }}"
+
+# ports that will be open to allowed hosts and country codes
+# SERVICES_allowed_ports="80/tcp 443/tcp"
+SERVICES_allowed_ports="{{ geofirewall_SERVICES_allowed_ports | default('') }}"
+
+# define aritrary allowed hosts
+# SERVICES_allowed_hosts="0.0.0.0/0 ::/0"
+SERVICES_allowed_hosts="{{ geofirewall_SERVICES_allowed_hosts | default('0.0.0.0/0 ::/0') }}"
+
+# define allowed country codes
+# SERVICES_allowed_countries="US CA"
+SERVICES_allowed_countries="{{ geofirewall_SERVICES_allowed_countries | default('') }}"
+
+# list of ports you want to restrict access to
+# ADMIN_allowed_ports="echo-request/icmp 134#0/ipv6-icmp 135#0/ipv6-icmp 22/tcp"
+ADMIN_allowed_ports="{{ geofirewall_ADMIN_allowed_ports | default('echo-request/icmp 134#0/ipv6-icmp 135#0/ipv6-icmp 22/tcp') }}"
+
+# define hosts allowed through to restricted admin ports
+# ADMIN_allowed_hosts="0.0.0.0/0 ::/0"
+ADMIN_allowed_hosts="{{ geofirewall_ADMIN_allowed_hosts | default('0.0.0.0/0 ::/0') }}"
+
+# define allowed country codes
+# ADMIN_allowed_countries="US CA"
+ADMIN_allowed_countries="{{ geofirewall_ADMIN_allowed_countries | default('') }}"
+
+# list of ports you want to restrict access to
+# MONITORING_allowed_ports="echo-request/icmp 134#0/ipv6-icmp 135#0/ipv6-icmp"
+MONITORING_allowed_ports="{{ geofirewall_MONITORING_allowed_ports | default('echo-request/icmp 134#0/ipv6-icmp 135#0/ipv6-icmp') }}"
+
+# define hosts allowed through to restricted admin ports
+# MONITORING_allowed_hosts=""
+MONITORING_allowed_hosts="{{ geofirewall_MONITORING_allowed_hosts | default('') }}"
+
+# define allowed country codes
+# MONITORING_allowed_countries="US CA"
+MONITORING_allowed_countries="{{ geofirewall_MONITORING_allowed_countries | default('') }}"
+
+# whether to filter outgoing connections
+# OUTPUT_enable_filter="0"
+OUTPUT_enable_filter="{{ geofirewall_OUTPUT_enable_filter | default('0') }}"
+
+# define explicitely allowed outgoing ports
+# this is quite tricky to get right
+# if you don't want to bother, set 'OUTPUT_enable_filter' to '0'
+# OUTPUT_allowed_ports="echo-request/icmp 134#0/ipv6-icmp 135#0/ipv6-icmp 21/tcp 22/tcp 25/tcp 43/tcp 80/tcp 123/udp/tcp 443/tcp"
+OUTPUT_allowed_ports="{{ geofirewall_OUTPUT_allowed_ports | default('echo-request/icmp 134#0/ipv6-icmp 135#0/ipv6-icmp 21/tcp 22/tcp 25/tcp 43/tcp 80/tcp 123/udp/tcp 443/tcp') }}"
+
+# If LOG_DROPPED_PACKETS is set to 1, we will log all dropped packets to syslog
+LOG_DROPPED_PACKETS="{{ geofirewall_LOG_DROPPED_PACKETS | default('0') }}"

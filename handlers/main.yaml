@@ -1,0 +1,6 @@
+---
+
+# file: roles/ansible_geofirewall/handlers/main.yaml
+
+- name: run geofirewall script
+  command: '{{ ansible_geofirewall_script_path }}'

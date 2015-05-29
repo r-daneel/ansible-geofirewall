@@ -1,0 +1,6 @@
+---
+
+# file: roles/ansible_geofirewall/vars/main.yaml
+
+ansible_geofirewall_script_path: '/usr/local/bin/geofirewall.sh'
+ansible_geofirewall_config_path: '/etc/geofirewall.conf'

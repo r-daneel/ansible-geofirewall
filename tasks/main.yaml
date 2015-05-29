@@ -1,0 +1,31 @@
+---
+
+# file: roles/ansible_geofirewall/tasks/main.yaml
+
+- name: install persistence for iptables rules
+  apt: name=iptables-persistent state=latest
+
+- name: ensure iptables rules will be set on boot
+  service: name=iptables-persistent enabled=yes
+
+- name: install firewall script
+  copy:
+    src=ansible_geofirewall.sh
+    dest='{{ ansible_geofirewall_script_path }}'
+    owner=root
+    group=root
+    mode=755
+  notify:
+    - run firewall script
+
+- name: build configuration file
+  template:
+    src=ansible_geofirewall.conf.j2
+    dest='{{ ansible_geofirewall_config_path }}'
+    backup=yes
+    owner=root
+    group=root
+    mode=640
+  notify:
+    - run geofirewall script
+
