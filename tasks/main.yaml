@@ -10,22 +10,22 @@
 
 - name: install firewall script
   copy:
-    src=ansible_geofirewall.sh
-    dest='{{ ansible_geofirewall_script_path }}'
-    owner=root
-    group=root
-    mode=755
+    src: 'geofirewall.sh'
+    dest: '{{ ansible_geofirewall_script_path }}'
+    owner: 'root'
+    group: 'root'
+    mode : '0755'
   notify:
     - run firewall script
 
 - name: build configuration file
   template:
-    src=ansible_geofirewall.conf.j2
-    dest='{{ ansible_geofirewall_config_path }}'
-    backup=yes
-    owner=root
-    group=root
-    mode=640
+    src: 'geofirewall.conf.j2'
+    dest: '{{ ansible_geofirewall_config_path }}'
+    backup: yes
+    owner: 'root'
+    group: 'root'
+    mode: '0640'
   notify:
     - run geofirewall script
 
