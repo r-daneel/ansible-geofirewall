@@ -6,32 +6,15 @@ function SetColor() {
   [ ${USE_COLORS:-1} -eq 0 ] && return 0
   sc_color="${1}"
   case "${sc_color}" in
-    grey)
-      sc_colorcode="0"
-      ;;
-    blue)
-      sc_colorcode="1"
-      ;;
-    green)
-      sc_colorcode="2"
-      ;;
-    cyan)
-      sc_colorcode="3"
-      ;;
-    red)
-      sc_colorcode="4"
-      ;;
-    purple)
-      sc_colorcode="5"
-      ;;
-    yellow)
-      sc_colorcode="6"
-      ;;
-    white)
-      sc_colorcode="7"
-      ;;
-    *)
-      sc_colorcode="7"
+    grey) sc_colorcode="0" ;;
+    blue) sc_colorcode="1" ;;
+    green) sc_colorcode="2" ;;
+    cyan) sc_colorcode="3" ;;
+    red) sc_colorcode="4" ;;
+    purple) sc_colorcode="5" ;;
+    yellow) sc_colorcode="6" ;;
+    white) sc_colorcode="7" ;;
+    *) sc_colorcode="7" ;;
   esac
   tput setf "${sc_colorcode}" || return 1
   return 0
@@ -657,13 +640,13 @@ do
     icmp)
       WriteDebug "we do no supplemental processing for ICMP packets here"
       ;;
-    UDP)
+    udp)
       WriteDebug "we do no supplemental processing for UDP packets here"
       ;;
-    TCP)
+    tcp)
       WriteInfo "dropping any outgoing RST packet from known service port '${current_port}/${current_protocol}'"
-      iptablesCmd -A OUTPUT -p ${current_protocol} -sport ${current_port} -m tcp --tcp-flags RST RST -j "${default_policy}" || ExitScript 1 "iptablesCmd failed"
-      ip6tablesCmd -A OUTPUT -p ${current_protocol} -sport ${current_port} -m tcp --tcp-flags RST RST -j "${default_policy}" || ExitScript 1 "ip6tablesCmd failed"
+      iptablesCmd -A OUTPUT -p ${current_protocol} --sport ${current_port} -m tcp --tcp-flags ALL RST,ACK -j "${default_policy}" || ExitScript 1 "iptablesCmd failed"
+      ip6tablesCmd -A OUTPUT -p ${current_protocol} --sport ${current_port} -m tcp --tcp-flags ALL RST,ACK -j "${default_policy}" || ExitScript 1 "ip6tablesCmd failed"
       ;;
     *)
       WriteWarn "unknown protocol '${current_protocol}'"
